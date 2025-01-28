@@ -1,55 +1,37 @@
-# Calcul de la somme de deux nombres
-def add(a, b):
-    return a + b
+def calculate_area_of_circle(radius):
+    pi = 3.14
+    area = pi * radius * radius
+    return area
 
-# Calcul de la somme de deux nombres
-def add_again(a, b):
-    return a + b
+def calculate_area_of_square(side):
+    area = side * side
+    return area
 
-# Calcul de la différence entre deux nombres
-def subtract(a, b):
-    return a - b
+def calculate_area_of_rectangle(length, width):
+    area = length * width
+    return area
 
-# Calcul de la différence entre deux nombres
-def subtract_again(a, b):
-    return a - b
+# Exemple de calculs d'aire avec des lignes dupliquées
+radius = 5
+area_circle = calculate_area_of_circle(radius)
 
-# Multiplication de deux nombres
-def multiply(a, b):
-    return a * b
+# Lignes dupliquées
+pi = 3.14
+area_circle_duplicate = pi * radius * radius  # Duplication de la logique
 
-# Multiplication de deux nombres
-def multiply_again(a, b):
-    return a * b
+side = 4
+area_square = calculate_area_of_square(side)
 
-# Division de deux nombres
-def divide(a, b):
-    if b != 0:
-        return a / b
-    else:
-        return "Cannot divide by zero"
+# Lignes dupliquées
+area_square_duplicate = side * side  # Duplication de la logique
 
-# Division de deux nombres
-def divide_again(a, b):
-    if b != 0:
-        return a / b
-    else:
-        return "Cannot divide by zero"
+length = 6
+width = 3
+area_rectangle = calculate_area_of_rectangle(length, width)
 
-# Fonction pour utiliser les opérations
-def main():
-    print(add(10, 5))       # 15
-    print(add_again(10, 5)) # 15
-    #jaz
+# Lignes dupliquées
+area_rectangle_duplicate = length * width  # Duplication de la logique
 
-    print(subtract(10, 5))       # 5
-    print(subtract_again(10, 5)) # 5
-
-    print(multiply(10, 5))       # 50
-    print(multiply_again(10, 5)) # 50
-
-    print(divide(10, 5))         # 2.0
-    print(divide_again(10, 5))   # 2.0
-
-if __name__ == "__main__":
-    main()
+print(f"Aire du cercle : {area_circle}")
+print(f"Aire du carré : {area_square}")
+print(f"Aire du rectangle : {area_rectangle}")
