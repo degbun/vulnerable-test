@@ -1,27 +1,51 @@
-name: Build
+name: Build and Analyze with Coverage
 
 on:
   push:
     branches:
       - main
 
-
 jobs:
   build:
-    name: Build and analyze
+    name: Build, Test, and Analyze
     runs-on: ubuntu-latest
-    
+
     steps:
+      # Étape 1 : Checkout du code
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - uses: sonarsource/sonarqube-scan-action@v3
+          fetch-depth: 0  # Pour garantir que SonarQube analyse tout l'historique du code
+
+      # Étape 2 : Installer Python et les dépendances
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pytest coverage tox
+
+      # Étape 3 : Exécuter les tests avec coverage et générer le rapport
+      - name: Run tests with coverage
+        run: |
+          coverage run -m pytest
+          coverage xml  # Génère un fichier coverage.xml pour SonarQube
+
+      # Étape 4 : Analyser avec SonarQube
+      - name: SonarQube Analysis
+        uses: sonarsource/sonarqube-scan-action@v3
+        with:
+          args: >
+            -Dsonar.python.coverage.reportPaths=coverage.xml
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-      # If you wish to fail your job when the Quality Gate is red, uncomment the
-      # following lines. This would typically be used to fail a deployment.
-      - uses: sonarsource/sonarqube-quality-gate-action@master
+
+      # Étape 5 : Vérifier le Quality Gate
+      - name: SonarQube Quality Gate
+        uses: sonarsource/sonarqube-quality-gate-action@master
         timeout-minutes: 5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
